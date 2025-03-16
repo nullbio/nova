@@ -1,0 +1,246 @@
+:root {
+  --md-primary-fg-color: #5046E4;
+  --md-primary-fg-color--light: #7A71EB;
+  --md-primary-fg-color--dark: #3933B6;
+  --md-accent-fg-color: #FF4081;
+  /* Adjust the base font size to 95% */
+  font-size: 95%;
+}
+
+/* Typography adjustments */
+body {
+  font-size: 1rem; /* Uses the base font size */
+}
+
+.md-typeset {
+  font-size: 0.85rem;
+}
+
+.md-typeset code, .md-typeset pre {
+  font-size: 0.9em;
+}
+
+.md-typeset pre {
+  font-size: 0.9em;
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  color: var(--md-primary-fg-color);
+  font-size: 1.8rem;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  font-size: 1.4rem;
+}
+
+.md-typeset h3 {
+  font-weight: 500;
+  font-size: 1.2rem;
+}
+
+.md-typeset p, .md-typeset ul, .md-typeset ol {
+  font-size: 0.85rem;
+}
+
+/* Custom top bar for font size controls */
+.font-size-bar {
+  background-color: var(--md-primary-fg-color--dark);
+  color: white;
+  padding: 4px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.85rem;
+  height: 34px;
+  box-sizing: border-box;
+}
+
+/* Container to match width of main content */
+.font-size-container {
+  width: 100%;
+  max-width: 61rem; /* Match the md-grid max-width */
+  margin: 0 auto;
+  padding: 0 1.2rem;
+  display: flex;
+  justify-content: flex-start; /* Align to the left */
+}
+
+.font-size-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.font-size-control span {
+  margin-right: 8px;
+  font-weight: 500;
+}
+
+.font-size-control button {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 3px 10px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s ease;
+  height: 24px;
+  line-height: 18px;
+}
+
+.font-size-control button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Add some spacing between top bar and header */
+.md-header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Adjust body padding to account for the additional bar */
+.md-grid {
+  margin-top: 0.5rem;
+}
+
+/* Custom styling for tabbed content */
+.tabbed-set {
+  margin: 1.5em 0;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Style the tab labels */
+.tabbed-set .tabbed-labels {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0;
+}
+
+.tabbed-set .tabbed-labels > label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  border-bottom: 3px solid transparent;
+}
+
+/* Nova tab styling */
+.tabbed-set .tabbed-labels > label:nth-child(1) {
+  color: var(--md-primary-fg-color);
+}
+.tabbed-set .tabbed-labels > label:nth-child(1):hover {
+  background-color: rgba(80, 70, 228, 0.05);
+}
+.tabbed-set .tabbed-control:nth-child(1):checked ~ .tabbed-labels > label:nth-child(1) {
+  border-bottom-color: var(--md-primary-fg-color);
+  background-color: rgba(80, 70, 228, 0.1);
+}
+
+/* PyTorch tab styling */
+.tabbed-set .tabbed-labels > label:nth-child(2) {
+  color: var(--md-accent-fg-color);
+}
+.tabbed-set .tabbed-labels > label:nth-child(2):hover {
+  background-color: rgba(255, 64, 129, 0.05);
+}
+.tabbed-set .tabbed-control:nth-child(2):checked ~ .tabbed-labels > label:nth-child(2) {
+  border-bottom-color: var(--md-accent-fg-color);
+  background-color: rgba(255, 64, 129, 0.1);
+}
+
+/* Style the tab content */
+.tabbed-set .tabbed-content {
+  padding: 0;
+  position: relative;
+}
+
+.tabbed-set .tabbed-block {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove border from code blocks inside tabs */
+.tabbed-set .tabbed-block > pre {
+  margin: 0;
+  border-radius: 0;
+}
+
+/* Style scrollbars for Nova code blocks */
+.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre {
+  scrollbar-color: var(--md-primary-fg-color) rgba(80, 70, 228, 0.1);
+}
+
+.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre::-webkit-scrollbar-thumb {
+  background-color: var(--md-primary-fg-color);
+}
+
+.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre::-webkit-scrollbar-track {
+  background-color: rgba(80, 70, 228, 0.1);
+}
+
+/* Style scrollbars for PyTorch code blocks */
+.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre {
+  scrollbar-color: var(--md-accent-fg-color) rgba(255, 64, 129, 0.05);
+}
+
+.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre::-webkit-scrollbar-thumb {
+  background-color: var(--md-accent-fg-color);
+}
+
+.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre::-webkit-scrollbar-track {
+  background-color: rgba(255, 64, 129, 0.05);
+}
+
+/* Basic scrollbar styling */
+pre::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+
+pre::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+}
+
+pre::-webkit-scrollbar-track {
+  border-radius: 4px;
+}
+
+/* Other UI elements */
+.md-typeset .admonition {
+  font-size: 0.85rem;
+}
+
+.feature-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card h3 {
+  margin-top: 0;
+  color: var(--md-primary-fg-color);
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 2rem;
+}
