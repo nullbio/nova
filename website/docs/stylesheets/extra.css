@@ -189,13 +189,13 @@ body {
 
 /* IMPORTANT: Override tab colors with !important for code tabs */
 /* ========================================================== */
-/* Nova tab - enforce blue */
+/* Nova tab - enforce white background */
 .tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) {
-  background-color: rgba(80, 70, 228, 0.05) !important;
+  background-color: white !important;
 }
 
 .tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
-  background-color: rgba(80, 70, 228, 0.1) !important;
+  background-color: white !important;
 }
 
 .tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre code {

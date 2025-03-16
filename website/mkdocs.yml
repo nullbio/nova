@@ -65,9 +65,11 @@ extra:
 
 extra_css:
   - stylesheets/extra.css
+  - stylesheets/nova-highlight.css
 
 extra_javascript:
   - javascripts/font-size.js
+  - javascripts/nova-highlight.js
 
 plugins:
   - search

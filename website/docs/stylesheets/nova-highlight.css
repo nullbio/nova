@@ -1,0 +1,73 @@
+/**
+ * Nova Syntax Highlighting Styles
+ * Custom syntax highlighting for Nova language code blocks
+ */
+
+/* Nova code block base styling */
+.nova-highlighted {
+  font-family: 'Roboto Mono', monospace;
+  line-height: 1.5;
+}
+
+/* Keywords - using Python-like colors (deep blue) */
+.nova-keyword {
+  color: #0000FF; /* Python keyword blue */
+  font-weight: normal;
+}
+
+/* Special constructs - using Python-like function color */
+.nova-construct {
+  color: #7F40BF; /* Python-like function/method color (purple) */
+  font-weight: normal;
+}
+
+/* Numbers and values - similar to Python */
+.nova-number {
+  color: #008000; /* Python number green */
+}
+
+/* Comments - similar to Python */
+.nova-comment {
+  color: #808080; /* Medium gray */
+  font-style: italic;
+}
+
+/* String literals - similar to Python */
+.nova-string {
+  color: #BA2121; /* Python string red */
+}
+
+/* Variables - dynamically colored, but with more muted tones */
+.nova-variable {
+  /* Color is set inline via HSL for uniqueness */
+  font-weight: normal;
+  /* Base variable colors will be in range that doesn't clash with white */
+}
+
+/* Property access highlighting (e.g., mnist.train) */
+.nova-property {
+  color: #535D6C; /* Dark slate for property access */
+}
+
+/* Remove the background for Nova code blocks, keep them white */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) .nova-highlighted {
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Override any existing highlighting for Nova code */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) code {
+  background-color: transparent !important;
+}
+
+/* Hide any code line number elements that might still appear */
+.nova-highlighted a[id^="__codelineno"],
+.tabbed-set .tabbed-content .tabbed-block pre code a[id^="__codelineno"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  width: 0 !important;
+  opacity: 0 !important;
+  position: absolute !important;
+  pointer-events: none !important;
+}

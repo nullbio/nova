@@ -1,0 +1,41 @@
+{
+  "scopeName": "source.nova.embedded.python",
+  "injectionSelector": "L:source.python",
+  "patterns": [
+    {
+      "include": "#nova-code-block-triple-double-quotes"
+    },
+    {
+      "include": "#nova-code-block-triple-single-quotes"
+    },
+    {
+      "include": "#nova-code-block-comments"
+    }
+  ],
+  "repository": {
+    "nova-code-block-triple-double-quotes": {
+      "begin": "\"\"\"\\s*nova\\b",
+      "end": "\"\"\"",
+      "contentName": "source.nova",
+      "patterns": [
+        { "include": "source.nova" }
+      ]
+    },
+    "nova-code-block-triple-single-quotes": {
+      "begin": "'''\\s*nova\\b",
+      "end": "'''",
+      "contentName": "source.nova",
+      "patterns": [
+        { "include": "source.nova" }
+      ]
+    },
+    "nova-code-block-comments": {
+      "begin": "#\\s*NOVA CODE START\\b",
+      "end": "#\\s*NOVA CODE END\\b",
+      "contentName": "source.nova",
+      "patterns": [
+        { "include": "source.nova" }
+      ]
+    }
+  }
+}
