@@ -1,11 +1,11 @@
 :root {
-  --md-primary-fg-color: #5046E4;
-  --md-primary-fg-color--light: #7A71EB;
-  --md-primary-fg-color--dark: #3933B6;
-  --md-accent-fg-color: #FF4081;
+  --md-primary-fg-color: #5046e4;
+  --md-primary-fg-color--light: #7a71eb;
+  --md-primary-fg-color--dark: #3933b6;
+  --md-accent-fg-color: rgb(255, 231, 239);
   /* Custom tab colors */
-  --nova-tab-color: #5046E4; /* Blue */
-  --pytorch-tab-color: #FF4081; /* Pink */
+  --nova-tab-color: #5046e4; /* Blue */
+  --pytorch-tab-color: #ff4081; /* Pink */
   /* Adjust the base font size to 95% */
   font-size: 95%;
 }
@@ -19,7 +19,8 @@ body {
   font-size: 0.85rem;
 }
 
-.md-typeset code, .md-typeset pre {
+.md-typeset code,
+.md-typeset pre {
   font-size: 0.9em;
 }
 
@@ -43,7 +44,9 @@ body {
   font-size: 1.2rem;
 }
 
-.md-typeset p, .md-typeset ul, .md-typeset ol {
+.md-typeset p,
+.md-typeset ul,
+.md-typeset ol {
   font-size: 0.85rem;
 }
 
@@ -139,7 +142,10 @@ body {
 .tabbed-set .tabbed-labels > label:nth-child(1):hover {
   background-color: rgba(80, 70, 228, 0.05) !important;
 }
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-labels > label:nth-of-type(1) {
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-labels
+  > label:nth-of-type(1) {
   border-bottom-color: var(--nova-tab-color) !important;
   background-color: rgba(80, 70, 228, 0.1) !important;
   color: var(--nova-tab-color) !important;
@@ -158,7 +164,10 @@ body {
 .tabbed-set .tabbed-labels > label:nth-child(2):hover {
   background-color: rgba(255, 64, 129, 0.05) !important;
 }
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-labels > label:nth-of-type(2) {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-labels
+  > label:nth-of-type(2) {
   border-bottom-color: var(--pytorch-tab-color) !important;
   background-color: rgba(255, 64, 129, 0.1) !important;
   color: var(--pytorch-tab-color) !important;
@@ -189,66 +198,104 @@ body {
 
 /* IMPORTANT: Override tab colors with !important for code tabs */
 /* ========================================================== */
-/* Nova tab - enforce white background */
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) {
-  background-color: white !important;
+/* Nova tab - light grey background */
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1) {
+  background-color: #f5f5f5 !important;
 }
 
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
-  background-color: white !important;
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre {
+  background-color: #f5f5f5 !important;
 }
 
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre code {
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre
+  code {
   background-color: transparent !important;
 }
 
 /* PyTorch tab - enforce pink */
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(2) {
   background-color: rgba(255, 64, 129, 0.05) !important;
 }
 
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(2)
+  pre {
   background-color: rgba(255, 64, 129, 0.1) !important;
-}
-
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre code {
-  background-color: transparent !important;
 }
 
 /* Nova tab and code styling */
 /* Target Nova tab - usually the first tab */
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) {
-  background-color: rgba(80, 70, 228, 0.05);
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1) {
+  background-color: #f5f5f5;
 }
 
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
-  background-color: rgba(80, 70, 228, 0.1);
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre {
+  background-color: #f5f5f5;
 }
 
 /* These rules below might be redundant but we're being thorough */
 
 /* Nova scrollbars */
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre::-webkit-scrollbar-thumb {
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre::-webkit-scrollbar-thumb {
   background-color: var(--nova-tab-color) !important;
 }
 
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre::-webkit-scrollbar-track {
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre::-webkit-scrollbar-track {
   background-color: rgba(80, 70, 228, 0.1) !important;
 }
 
 /* Target PyTorch tab scrollbars */
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre::-webkit-scrollbar-thumb {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(2)
+  pre::-webkit-scrollbar-thumb {
   background-color: var(--pytorch-tab-color) !important;
 }
 
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre::-webkit-scrollbar-track {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(2)
+  pre::-webkit-scrollbar-track {
   background-color: rgba(255, 64, 129, 0.1) !important;
 }
 
 /* Basic scrollbar styling - make them more visible */
 pre::-webkit-scrollbar {
-  height: 8px;  /* For horizontal scrollbars */
-  width: 8px;   /* For vertical scrollbars */
+  height: 8px; /* For horizontal scrollbars */
+  width: 8px; /* For vertical scrollbars */
 }
 
 pre::-webkit-scrollbar-thumb {
@@ -260,11 +307,19 @@ pre::-webkit-scrollbar-track {
 }
 
 /* For Firefox - uses CSS scrollbar-color property */
-.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
+.tabbed-set
+  input:nth-of-type(1):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(1)
+  pre {
   scrollbar-color: var(--nova-tab-color) rgba(80, 70, 228, 0.1) !important;
 }
 
-.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre {
+.tabbed-set
+  input:nth-of-type(2):checked
+  ~ .tabbed-content
+  .tabbed-block:nth-of-type(2)
+  pre {
   scrollbar-color: var(--pytorch-tab-color) rgba(255, 64, 129, 0.1) !important;
 }
 

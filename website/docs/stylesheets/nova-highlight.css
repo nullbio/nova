@@ -37,11 +37,10 @@
   color: #BA2121; /* Python string red */
 }
 
-/* Variables - dynamically colored, but with more muted tones */
+/* Variables - consistent color like Python */
 .nova-variable {
-  /* Color is set inline via HSL for uniqueness */
+  color: #333FB7; /* Dark blue for all variables */
   font-weight: normal;
-  /* Base variable colors will be in range that doesn't clash with white */
 }
 
 /* Property access highlighting (e.g., mnist.train) */
@@ -70,4 +69,49 @@
   opacity: 0 !important;
   position: absolute !important;
   pointer-events: none !important;
+}
+
+/* Code block action buttons */
+.code-actions {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  display: flex;
+  gap: 0.25rem;
+  z-index: 10;
+}
+
+.code-action-button {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  padding: 0.1rem 0.25rem;
+  font-size: 0.6rem;
+  cursor: pointer;
+  color: #333;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.code-action-button:hover {
+  background-color: #f5f5f5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.code-action-button svg {
+  width: 10px;
+  height: 10px;
+  margin-right: 0.05rem;
+  vertical-align: middle;
+}
+
+/* Selection styles */
+::selection {
+  background-color: rgba(80, 70, 228, 0.2); /* Light blue selection color */
 }

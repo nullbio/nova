@@ -34,38 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define comment pattern
   const COMMENT_PATTERN = /#.*/g;
 
-  // Function to generate consistent colors for variable names
-  function generateConsistentColor(variableName) {
-    // Simple hash function for string
-    let hash = 0;
-    for (let i = 0; i < variableName.length; i++) {
-      hash = ((hash << 5) - hash) + variableName.charCodeAt(i);
-      hash |= 0; // Convert to 32bit integer
-    }
-    
-    // Define a set of Python-friendly colors that are readable on white
-    // and distinct from other syntax elements
-    const colors = [
-      '#2F597F', // Darker blue
-      '#8B4513', // SaddleBrown
-      '#008B8B', // DarkCyan
-      '#8B008B', // DarkMagenta
-      '#556B2F', // DarkOliveGreen
-      '#5F2F6A', // Dark purple
-      '#703324', // Dark brown-red
-      '#284E60', // Dark teal
-      '#4A5459', // Slate gray
-      '#504C4E', // Dark gray
-      '#0C5C11', // Dark forest green
-      '#1C5B80', // Darker teal
-      '#7D3C98', // Violet
-      '#5B552A', // Olive
-      '#4C3C4F'  // Dark mauve
-    ];
-    
-    // Use the hash to select a color from the array
-    const colorIndex = Math.abs(hash) % colors.length;
-    return colors[colorIndex];
+  // Function for variable color - now using a single color for all variables like Python
+  function getVariableColor() {
+    // Standard Python-like variable color (dark gray-blue)
+    return '#333FB7'; // A darker blue similar to Python variables
   }
 
   // Function to highlight Nova code
@@ -110,11 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
               }
             }
             
-            // Generate colors for variables
-            const variableColors = {};
-            variables.forEach(variable => {
-              variableColors[variable] = generateConsistentColor(variable);
-            });
+            // Get a single color for all variables (Python-like)
+            const variableColor = getVariableColor();
             
             // Apply highlighting to the cleaned content
             let highlighted = content;
@@ -149,16 +118,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 `<span class="nova-construct">${match}</span>`);
             });
             
-            // Highlight variables with their unique colors
+            // Highlight variables with a consistent color (Python-like)
             // Sort variables by length (descending) to handle overlap correctly
             const sortedVariables = Array.from(variables).sort((a, b) => b.length - a.length);
             
             sortedVariables.forEach(variable => {
               // Don't match variables inside other strings that were already highlighted
               const safeVarPattern = new RegExp(`(?<!span class=")\\b${variable.replace(/\./g, '\\.')}\\b`, 'g');
-              const color = variableColors[variable];
               highlighted = highlighted.replace(safeVarPattern, match => 
-                `<span class="nova-variable" style="color: ${color};">${match}</span>`);
+                `<span class="nova-variable">${match}</span>`);
             });
             
             // Set highlighted content
@@ -174,14 +142,99 @@ document.addEventListener('DOMContentLoaded', function() {
                 el.parentNode.removeChild(el);
               });
             }
+            
+            // Add copy and highlight buttons
+            addCodeActionButtons(codeElement);
           }
         }
       }
     });
   }
 
+  // Function to add copy and highlight buttons to code blocks
+  function addCodeActionButtons(codeElement) {
+    // Get parent pre element
+    const preElement = codeElement.closest('pre');
+    if (!preElement) return;
+    
+    // Create the actions container
+    const actionsContainer = document.createElement('div');
+    actionsContainer.className = 'code-actions';
+    
+    // Create copy button
+    const copyButton = document.createElement('button');
+    copyButton.className = 'code-action-button copy-button';
+    copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>Copy`;
+    copyButton.addEventListener('click', function() {
+      // Get the text content of the code element
+      const textToCopy = codeElement.textContent;
+      
+      // Use the clipboard API to copy the text
+      navigator.clipboard.writeText(textToCopy).then(function() {
+        // Change button text temporarily
+        const originalText = copyButton.innerHTML;
+        copyButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg>Copied!`;
+        
+        // Reset button text after 2 seconds
+        setTimeout(function() {
+          copyButton.innerHTML = originalText;
+        }, 2000);
+      }).catch(function(err) {
+        console.error('Could not copy text: ', err);
+      });
+    });
+    
+    // Create "Select All" button (renamed from "Highlight")
+    const selectButton = document.createElement('button');
+    selectButton.className = 'code-action-button select-button';
+    selectButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>Select`;
+    selectButton.addEventListener('click', function() {
+      // Create a range and select the code element contents
+      const range = document.createRange();
+      range.selectNodeContents(codeElement);
+      
+      // Remove any existing selection
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      
+      // Apply the new selection
+      selection.addRange(range);
+      
+      // Provide visual feedback that the text was selected
+      const originalText = selectButton.innerHTML;
+      selectButton.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"></path></svg>Selected!`;
+      
+      // Reset button text after 2 seconds
+      setTimeout(function() {
+        selectButton.innerHTML = originalText;
+      }, 2000);
+    });
+    
+    // Add buttons to the container
+    actionsContainer.appendChild(copyButton);
+    actionsContainer.appendChild(selectButton);
+    
+    // Add the container to the pre element
+    preElement.style.position = 'relative';
+    preElement.appendChild(actionsContainer);
+  }
+
+  // Also add buttons to PyTorch code blocks
+  function addButtonsToAllCodeBlocks() {
+    const allCodeBlocks = document.querySelectorAll('.tabbed-set .tabbed-block pre code');
+    allCodeBlocks.forEach(codeElement => {
+      // Skip if buttons are already added
+      if (codeElement.closest('pre').querySelector('.code-actions')) return;
+      
+      addCodeActionButtons(codeElement);
+    });
+  }
+
   // Run highlighting
   highlightNovaCode();
+  
+  // Add buttons to all code blocks
+  addButtonsToAllCodeBlocks();
   
   // Add MutationObserver to handle dynamic content loading
   const observer = new MutationObserver(function(mutations) {
@@ -196,6 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
               node.querySelector('.tabbed-set')
             )) {
               highlightNovaCode();
+              addButtonsToAllCodeBlocks();
               break;
             }
           }
