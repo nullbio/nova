@@ -1,11 +1,28 @@
-# Nova Language Support
+# Nova Language Support for VS Code and Cursor
 
-This directory contains files needed to create syntax highlighting extensions for Nova language in VS Code, Cursor, and other editors that support TextMate grammars.
+Nova provides official syntax highlighting support for VS Code and Cursor editors. This allows you to write and view Nova code with proper syntax highlighting, making it easier to read and work with Nova files.
 
-## Files
+![Nova Syntax Highlighting Example](https://nova-dl.org/assets/images/vscode-extension.png)
 
-- `nova-language-configuration.json`: Contains editor configuration for Nova language (comments, brackets, auto-closing pairs, etc.)
-- `nova.tmLanguage.json`: TextMate grammar for Nova language syntax highlighting
+## Features
+
+- Syntax highlighting for Nova language files (`.nova`)
+- Embedded Nova code highlighting in Python files
+- Comment toggling, bracket matching, and auto-indentation
+- Follows the same color scheme as the official Nova documentation
+
+## Installation
+
+### VS Code
+1. Visit the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=nova-team.nova-language)
+2. Click "Install"
+3. Or open VS Code, go to Extensions (Ctrl+Shift+X), search for "Nova Language", and install
+
+### Cursor
+1. Open Cursor
+2. Go to Extensions (Ctrl+Shift+X)
+3. Search for "Nova Language"
+4. Click "Install"
 
 ## Creating a VS Code Extension
 
@@ -92,34 +109,40 @@ You can customize the colors in your VS Code/Cursor settings:
 "editor.tokenColorCustomizations": {
   "textMateRules": [
     {
-      "scope": "keyword.control.nova",
+      "scope": "keyword.other.nova",
       "settings": {
-        "foreground": "#5046E4"
+        "foreground": "#000000"  // Black for keywords
       }
     },
     {
       "scope": "entity.name.function.nova",
       "settings": {
-        "foreground": "#FF4081"
+        "foreground": "#7F40BF"  // Purple for constructs
       }
     },
     {
       "scope": "constant.numeric.nova",
       "settings": {
-        "foreground": "#FF8F00"
+        "foreground": "#008000"  // Green for numbers
       }
     },
     {
       "scope": "comment.line.number-sign.nova",
       "settings": {
-        "foreground": "#757575",
+        "foreground": "#888888",  // Light gray for comments
         "fontStyle": "italic"
       }
     },
     {
       "scope": "string.quoted.double.nova, string.quoted.single.nova",
       "settings": {
-        "foreground": "#43A047"
+        "foreground": "#BA2121"  // Red for strings
+      }
+    },
+    {
+      "scope": "variable.other.nova",
+      "settings": {
+        "foreground": "#000000"  // Black for variables
       }
     }
   ]

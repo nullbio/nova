@@ -36,9 +36,12 @@ nav:
   - Examples:
     - Basic Models: examples/basic-models.md
     - Computer Vision: examples/computer-vision.md
+    - Advanced Techniques: examples/advanced-techniques.md
   - API Reference:
     - Interpreter: api/interpreter.md
     - Extensions: api/extensions.md
+  - Tools:
+    - VS Code Extension: assets/vscode/README.md
   - Community:
     - Contributing: community/contributing.md
     - Roadmap: community/roadmap.md

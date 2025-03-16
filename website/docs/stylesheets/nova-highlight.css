@@ -9,37 +9,37 @@
   line-height: 1.5;
 }
 
-/* Keywords - using Python-like colors (deep blue) */
+/* Keywords - black instead of bright blue */
 .nova-keyword {
-  color: #0000FF; /* Python keyword blue */
+  color: #000000; /* Black for keywords */
   font-weight: normal;
 }
 
-/* Special constructs - using Python-like function color */
+/* Special constructs - matching Python's built-in function color */
 .nova-construct {
   color: #7F40BF; /* Python-like function/method color (purple) */
   font-weight: normal;
 }
 
-/* Numbers and values - similar to Python */
+/* Numbers and values - matching Python */
 .nova-number {
   color: #008000; /* Python number green */
 }
 
-/* Comments - similar to Python */
+/* Comments - lighter gray color */
 .nova-comment {
-  color: #808080; /* Medium gray */
+  color: #888888; /* Light gray for comments */
   font-style: italic;
 }
 
-/* String literals - similar to Python */
+/* String literals - matching Python */
 .nova-string {
   color: #BA2121; /* Python string red */
 }
 
-/* Variables - consistent color like Python */
+/* Variables - matching Python variable color */
 .nova-variable {
-  color: #333FB7; /* Dark blue for all variables */
+  color: #000000; /* Black for variables like Python */
   font-weight: normal;
 }
 

@@ -31,13 +31,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Define numeric pattern
   const NUMBER_PATTERN = /\b\d+(\.\d+)?\b/g;
 
-  // Define comment pattern
+  // Define comment pattern - matches Python's greenish-gray color (#408080)
   const COMMENT_PATTERN = /#.*/g;
 
-  // Function for variable color - now using a single color for all variables like Python
+  // Function for variable color - using black for variables like Python
   function getVariableColor() {
-    // Standard Python-like variable color (dark gray-blue)
-    return '#333FB7'; // A darker blue similar to Python variables
+    // Black for variables, matching Python
+    return '#000000';
   }
 
   // Function to highlight Nova code
@@ -89,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let highlighted = content;
             
             // Highlight comments first (they take precedence)
+            // Make sure to wrap the entire comment line
             highlighted = highlighted.replace(COMMENT_PATTERN, match => 
               `<span class="nova-comment">${match}</span>`);
             

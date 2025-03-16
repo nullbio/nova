@@ -21,7 +21,7 @@
       "patterns": [
         {
           "match": "(?<!\\.)\\b(train|training)\\b",
-          "name": "keyword.control.nova"
+          "name": "keyword.other.nova"
         }
       ]
     },
@@ -29,7 +29,7 @@
       "patterns": [
         {
           "match": "\\b(load|data|collection|from|with|apply|create|processing|pipeline|add|transformation|stage|inputs|outputs|activation|on|measure|error|using|improve|repeat|for|learning|cycles|evaluate|report|results|save|to|prepare|stream|batch|size|shuffle|enabled|disable|split|into|testing|print|progress|every|convert|feature|grid)\\b",
-          "name": "keyword.control.nova"
+          "name": "keyword.other.nova"
         }
       ]
     },
