@@ -3,6 +3,9 @@
   --md-primary-fg-color--light: #7A71EB;
   --md-primary-fg-color--dark: #3933B6;
   --md-accent-fg-color: #FF4081;
+  /* Custom tab colors */
+  --nova-tab-color: #5046E4; /* Blue */
+  --pytorch-tab-color: #FF4081; /* Pink */
   /* Adjust the base font size to 95% */
   font-size: 95%;
 }
@@ -129,28 +132,42 @@ body {
   border-bottom: 3px solid transparent;
 }
 
-/* Nova tab styling */
+/* Nova tab styling - with !important to override any other styles */
 .tabbed-set .tabbed-labels > label:nth-child(1) {
-  color: var(--md-primary-fg-color);
+  color: var(--nova-tab-color) !important;
 }
 .tabbed-set .tabbed-labels > label:nth-child(1):hover {
-  background-color: rgba(80, 70, 228, 0.05);
+  background-color: rgba(80, 70, 228, 0.05) !important;
 }
-.tabbed-set .tabbed-control:nth-child(1):checked ~ .tabbed-labels > label:nth-child(1) {
-  border-bottom-color: var(--md-primary-fg-color);
-  background-color: rgba(80, 70, 228, 0.1);
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-labels > label:nth-of-type(1) {
+  border-bottom-color: var(--nova-tab-color) !important;
+  background-color: rgba(80, 70, 228, 0.1) !important;
+  color: var(--nova-tab-color) !important;
+}
+
+/* Special case for the Nova Code tab */
+.tabbed-set .tabbed-labels > label:nth-child(1):contains("Nova Code"),
+.tabbed-set .tabbed-labels > label:nth-child(1):contains("Nova") {
+  color: var(--nova-tab-color) !important;
 }
 
 /* PyTorch tab styling */
 .tabbed-set .tabbed-labels > label:nth-child(2) {
-  color: var(--md-accent-fg-color);
+  color: var(--pytorch-tab-color) !important;
 }
 .tabbed-set .tabbed-labels > label:nth-child(2):hover {
-  background-color: rgba(255, 64, 129, 0.05);
+  background-color: rgba(255, 64, 129, 0.05) !important;
 }
-.tabbed-set .tabbed-control:nth-child(2):checked ~ .tabbed-labels > label:nth-child(2) {
-  border-bottom-color: var(--md-accent-fg-color);
-  background-color: rgba(255, 64, 129, 0.1);
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-labels > label:nth-of-type(2) {
+  border-bottom-color: var(--pytorch-tab-color) !important;
+  background-color: rgba(255, 64, 129, 0.1) !important;
+  color: var(--pytorch-tab-color) !important;
+}
+
+/* Special case for the PyTorch Code tab */
+.tabbed-set .tabbed-labels > label:nth-child(2):contains("PyTorch Code"),
+.tabbed-set .tabbed-labels > label:nth-child(2):contains("PyTorch") {
+  color: var(--pytorch-tab-color) !important;
 }
 
 /* Style the tab content */
@@ -170,36 +187,68 @@ body {
   border-radius: 0;
 }
 
-/* Style scrollbars for Nova code blocks */
-.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre {
-  scrollbar-color: var(--md-primary-fg-color) rgba(80, 70, 228, 0.1);
+/* IMPORTANT: Override tab colors with !important for code tabs */
+/* ========================================================== */
+/* Nova tab - enforce blue */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) {
+  background-color: rgba(80, 70, 228, 0.05) !important;
 }
 
-.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre::-webkit-scrollbar-thumb {
-  background-color: var(--md-primary-fg-color);
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
+  background-color: rgba(80, 70, 228, 0.1) !important;
 }
 
-.tabbed-control:nth-child(1):checked ~ .tabbed-content > .tabbed-block:nth-child(1) pre::-webkit-scrollbar-track {
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre code {
+  background-color: transparent !important;
+}
+
+/* PyTorch tab - enforce pink */
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) {
+  background-color: rgba(255, 64, 129, 0.05) !important;
+}
+
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre {
+  background-color: rgba(255, 64, 129, 0.1) !important;
+}
+
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre code {
+  background-color: transparent !important;
+}
+
+/* Nova tab and code styling */
+/* Target Nova tab - usually the first tab */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) {
+  background-color: rgba(80, 70, 228, 0.05);
+}
+
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
   background-color: rgba(80, 70, 228, 0.1);
 }
 
-/* Style scrollbars for PyTorch code blocks */
-.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre {
-  scrollbar-color: var(--md-accent-fg-color) rgba(255, 64, 129, 0.05);
+/* These rules below might be redundant but we're being thorough */
+
+/* Nova scrollbars */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre::-webkit-scrollbar-thumb {
+  background-color: var(--nova-tab-color) !important;
 }
 
-.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre::-webkit-scrollbar-thumb {
-  background-color: var(--md-accent-fg-color);
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre::-webkit-scrollbar-track {
+  background-color: rgba(80, 70, 228, 0.1) !important;
 }
 
-.tabbed-control:nth-child(2):checked ~ .tabbed-content > .tabbed-block:nth-child(2) pre::-webkit-scrollbar-track {
-  background-color: rgba(255, 64, 129, 0.05);
+/* Target PyTorch tab scrollbars */
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre::-webkit-scrollbar-thumb {
+  background-color: var(--pytorch-tab-color) !important;
 }
 
-/* Basic scrollbar styling */
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre::-webkit-scrollbar-track {
+  background-color: rgba(255, 64, 129, 0.1) !important;
+}
+
+/* Basic scrollbar styling - make them more visible */
 pre::-webkit-scrollbar {
-  height: 8px;
-  width: 8px;
+  height: 8px;  /* For horizontal scrollbars */
+  width: 8px;   /* For vertical scrollbars */
 }
 
 pre::-webkit-scrollbar-thumb {
@@ -208,6 +257,20 @@ pre::-webkit-scrollbar-thumb {
 
 pre::-webkit-scrollbar-track {
   border-radius: 4px;
+}
+
+/* For Firefox - uses CSS scrollbar-color property */
+.tabbed-set input:nth-of-type(1):checked ~ .tabbed-content .tabbed-block:nth-of-type(1) pre {
+  scrollbar-color: var(--nova-tab-color) rgba(80, 70, 228, 0.1) !important;
+}
+
+.tabbed-set input:nth-of-type(2):checked ~ .tabbed-content .tabbed-block:nth-of-type(2) pre {
+  scrollbar-color: var(--pytorch-tab-color) rgba(255, 64, 129, 0.1) !important;
+}
+
+/* Make horizontal scrollbars more prominent */
+pre {
+  scrollbar-width: thin;
 }
 
 /* Other UI elements */
