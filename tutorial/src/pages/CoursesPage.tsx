@@ -110,6 +110,269 @@ const coursesData: Course[] = [
             }
           }
         ]
+      },
+      {
+        id: 'understanding-data',
+        title: 'Understanding Data in Nova',
+        description: 'Learn how to work with data collections, samples, and feature grids in Nova.',
+        complexity: 'beginner',
+        estimatedTime: 25,
+        content: [
+          {
+            type: 'text',
+            content: '# Understanding Data in Nova\n\nBefore we can train a neural network, we need to understand how to work with data in Nova. In this lesson, we\'ll explore Nova\'s intuitive data concepts and how they map to PyTorch\'s data structures.\n\n## Data Concepts in Nova\n\nNova uses familiar terminology to describe data structures:\n\n- **Data Collection**: A dataset (e.g., MNIST, CIFAR-10)\n- **Sample**: An individual data point\n- **Feature Grid**: A tensor (with dimensions and types)\n- **Data Stream**: A DataLoader that provides batches of samples'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Loading a data collection in Nova\nload data collection mnist from "torchvision.datasets"\n\n# Splitting the data collection\nsplit collection mnist into 80% training and 20% testing\n\n# Creating a data stream with batches\nprepare data stream from mnist_training with batch size 32',
+              pytorch: 'import torch\nfrom torchvision import datasets, transforms\nfrom torch.utils.data import DataLoader, random_split\n\n# Load the MNIST dataset\ntransform = transforms.Compose([\n    transforms.ToTensor(),\n    transforms.Normalize((0.1307,), (0.3081,))\n])\n\nmnist_full = datasets.MNIST(\'./data\', train=True, download=True, transform=transform)\n\n# Split the dataset\ntrain_size = int(0.8 * len(mnist_full))\ntest_size = len(mnist_full) - train_size\nmnist_training, mnist_testing = random_split(mnist_full, [train_size, test_size])\n\n# Create data loaders (streams)\nmnist_training_stream = DataLoader(mnist_training, batch_size=32, shuffle=True)\nmnist_testing_stream = DataLoader(mnist_testing, batch_size=32)'
+            },
+            explanation: 'This code demonstrates how to load, split, and create data streams in Nova and its PyTorch equivalent.'
+          },
+          {
+            type: 'text',
+            content: '## Feature Grids (Tensors)\n\nIn deep learning, we represent data as tensors - multi-dimensional arrays of numbers. Nova calls these "feature grids" to make them more intuitive:\n\n- A 1D feature grid is like a list of numbers (a vector)\n- A 2D feature grid is like a table (a matrix)\n- A 3D feature grid could represent an image (width × height × channels)\n- A 4D feature grid could represent a batch of images'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Creating feature grids in Nova\ncreate feature grid sample_vector with shape [10]\ncreate feature grid sample_matrix with shape [3, 4]\ncreate feature grid sample_image with shape [28, 28, 1]\ncreate feature grid sample_batch with shape [32, 28, 28, 1]',
+              pytorch: 'import torch\n\n# Creating tensors in PyTorch\nsample_vector = torch.zeros(10)\nsample_matrix = torch.zeros(3, 4)\nsample_image = torch.zeros(28, 28, 1)\nsample_batch = torch.zeros(32, 28, 28, 1)'
+            },
+            explanation: 'This code shows how to create feature grids (tensors) of different dimensions in Nova and PyTorch.'
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'What Nova concept corresponds to a PyTorch DataLoader?',
+              options: [
+                'Feature Grid',
+                'Sample',
+                'Data Collection',
+                'Data Stream'
+              ],
+              correctAnswer: 3,
+              explanation: 'In Nova, a "Data Stream" corresponds to a PyTorch DataLoader, which provides batches of samples for training or evaluation.'
+            }
+          }
+        ]
+      },
+      {
+        id: 'training-models',
+        title: 'Training Neural Networks',
+        description: 'Learn how to train your neural networks using Nova\'s intuitive training syntax.',
+        complexity: 'beginner',
+        estimatedTime: 30,
+        content: [
+          {
+            type: 'text',
+            content: '# Training Neural Networks in Nova\n\nAfter defining a neural network and preparing your data, the next step is to train the model. In this lesson, we\'ll explore Nova\'s intuitive training syntax and understand the key components of the training process.\n\n## Training Concepts in Nova\n\nNova uses clear terminology to describe the training process:\n\n- **Error Measure**: Loss function that evaluates model performance\n- **Improvement Strategy**: Optimizer that updates model parameters\n- **Learning Cycle**: Epoch (one complete pass through the training data)\n- **Improvement Step**: Backpropagation and parameter updates'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Training a neural network in Nova\ntrain digit_recognizer on mnist_data_stream:\n    measure error using cross_entropy\n    improve using gradient_descent with learning rate 0.01\n    repeat for 10 learning cycles',
+              pytorch: 'import torch\nimport torch.nn as nn\nimport torch.optim as optim\n\n# Assuming digit_recognizer and mnist_data_stream are defined\nmodel = digit_recognizer\ncriterion = nn.CrossEntropyLoss()\noptimizer = optim.SGD(model.parameters(), lr=0.01)\n\n# Training loop\nfor epoch in range(10):  # 10 learning cycles (epochs)\n    for data, target in mnist_data_stream:\n        # Zero the parameter gradients\n        optimizer.zero_grad()\n        \n        # Forward pass\n        output = model(data)\n        \n        # Calculate loss\n        loss = criterion(output, target)\n        \n        # Backward pass and optimize\n        loss.backward()\n        optimizer.step()'
+            },
+            explanation: 'This code demonstrates the training process in Nova and its PyTorch equivalent. Note how Nova\'s syntax is more concise and uses intuitive terminology.'
+          },
+          {
+            type: 'text',
+            content: '## Common Error Measures (Loss Functions)\n\nDifferent tasks require different error measures:\n\n- **Cross Entropy**: For classification tasks\n- **Mean Squared Error**: For regression tasks\n- **Binary Cross Entropy**: For binary classification\n\n## Common Improvement Strategies (Optimizers)\n\n- **Gradient Descent**: Standard optimization algorithm\n- **Adam**: Adaptive optimization with momentum\n- **RMSProp**: Adaptive learning rates for each parameter'
+          },
+          {
+            type: 'interactive-code',
+            content: {
+              nova: '# Complete the training code for a regression model\n\ncreate processing pipeline house_price_predictor:\n    add transformation stage fully_connected with 10 inputs and 32 outputs\n    apply relu activation\n    add transformation stage fully_connected with 32 inputs and 1 outputs\n\n# Add your training code below\ntrain house_price_predictor on housing_data_stream:\n    # Add error measure\n    \n    # Add improvement strategy\n    \n    # Add learning cycles',
+              pytorch: '',
+              solution: 'create processing pipeline house_price_predictor:\n    add transformation stage fully_connected with 10 inputs and 32 outputs\n    apply relu activation\n    add transformation stage fully_connected with 32 inputs and 1 outputs\n\ntrain house_price_predictor on housing_data_stream:\n    measure error using mean_squared_error\n    improve using adam with learning rate 0.001\n    repeat for 50 learning cycles',
+              instructions: 'Complete the training code by adding the appropriate error measure (mean_squared_error), improvement strategy (adam with learning rate 0.001), and number of learning cycles (50).',
+              hints: [
+                'For regression tasks, mean_squared_error is a common error measure',
+                'Adam is an effective optimizer for many tasks',
+                'The syntax for the improvement strategy is: improve using [strategy] with learning rate [rate]',
+                'Specify learning cycles with: repeat for [number] learning cycles'
+              ]
+            }
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'What is the purpose of an "Improvement Strategy" in Nova?',
+              options: [
+                'To visualize the model\'s performance',
+                'To update the model\'s parameters based on the calculated error',
+                'To evaluate the model\'s performance on test data',
+                'To preprocess the input data'
+              ],
+              correctAnswer: 1,
+              explanation: 'In Nova, an "Improvement Strategy" (optimizer in PyTorch) is responsible for updating the model\'s parameters based on the calculated error, helping the model improve over time.'
+            }
+          }
+        ]
+      },
+      {
+        id: 'evaluating-models',
+        title: 'Evaluating Model Performance',
+        description: 'Learn how to evaluate your models and interpret the results.',
+        complexity: 'beginner',
+        estimatedTime: 25,
+        content: [
+          {
+            type: 'text',
+            content: '# Evaluating Model Performance\n\nAfter training a model, it\'s crucial to evaluate its performance to understand how well it generalizes to new data. In this lesson, we\'ll learn how to evaluate models using Nova and interpret the results.\n\n## Evaluation Concepts\n\n- **Test Data**: Data not seen during training\n- **Predictions**: Model outputs for given inputs\n- **Performance Metrics**: Measures of model quality (accuracy, precision, recall, etc.)\n- **Confusion Matrix**: Table showing correct and incorrect predictions'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Evaluating a model in Nova\nevaluate digit_recognizer on mnist_test_stream:\n    calculate accuracy\n    calculate confusion_matrix',
+              pytorch: 'import torch\nimport numpy as np\nfrom sklearn.metrics import accuracy_score, confusion_matrix\n\n# Assuming digit_recognizer and mnist_test_stream are defined\nmodel = digit_recognizer\nmodel.eval()  # Set the model to evaluation mode\n\nall_predictions = []\nall_targets = []\n\nwith torch.no_grad():  # Disable gradient computation\n    for data, target in mnist_test_stream:\n        # Forward pass\n        output = model(data)\n        \n        # Get the predicted class\n        _, predicted = torch.max(output, 1)\n        \n        # Store predictions and targets\n        all_predictions.extend(predicted.numpy())\n        all_targets.extend(target.numpy())\n\n# Calculate accuracy\naccuracy = accuracy_score(all_targets, all_predictions)\nprint(f"Accuracy: {accuracy:.4f}")\n\n# Calculate confusion matrix\ncm = confusion_matrix(all_targets, all_predictions)\nprint("Confusion Matrix:")\nprint(cm)'
+            },
+            explanation: 'This code shows how to evaluate a model in Nova and PyTorch. The Nova code is much more concise.'
+          },
+          {
+            type: 'text',
+            content: '## Common Performance Metrics\n\n- **Accuracy**: Proportion of correct predictions (correct / total)\n- **Precision**: Proportion of true positives among positive predictions (TP / (TP + FP))\n- **Recall**: Proportion of true positives among actual positives (TP / (TP + FN))\n- **F1 Score**: Harmonic mean of precision and recall\n- **ROC Curve**: Plots true positive rate vs. false positive rate at different thresholds'
+          },
+          {
+            type: 'interactive-code',
+            content: {
+              nova: '# Complete the evaluation code\n\ncreate processing pipeline sentiment_classifier:\n    add transformation stage fully_connected with 100 inputs and 64 outputs\n    apply relu activation\n    add transformation stage fully_connected with 64 inputs and 2 outputs\n    apply softmax activation\n\n# Train the model (assume it\'s already trained)\n\n# Add your evaluation code below\nevaluate sentiment_classifier on review_test_stream:\n    # Add metrics to calculate',
+              pytorch: '',
+              solution: 'create processing pipeline sentiment_classifier:\n    add transformation stage fully_connected with 100 inputs and 64 outputs\n    apply relu activation\n    add transformation stage fully_connected with 64 inputs and 2 outputs\n    apply softmax activation\n\n# Train the model (assume it\'s already trained)\n\nevaluate sentiment_classifier on review_test_stream:\n    calculate accuracy\n    calculate precision\n    calculate recall\n    calculate f1_score',
+              instructions: 'Complete the evaluation code by adding appropriate metrics: accuracy, precision, recall, and f1_score.',
+              hints: [
+                'Start with the most common metric: accuracy',
+                'For binary classification, precision and recall are important',
+                'F1 score combines precision and recall',
+                'The syntax is: calculate [metric_name]'
+              ]
+            }
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'Why is it important to evaluate a model on test data rather than training data?',
+              options: [
+                'Because test data is easier to process',
+                'To measure how well the model generalizes to new, unseen data',
+                'Because training data is usually corrupted',
+                'To make the evaluation process faster'
+              ],
+              correctAnswer: 1,
+              explanation: 'Evaluating on test data (data not seen during training) helps measure how well the model generalizes to new, unseen data. This is crucial because the ultimate goal is to make accurate predictions on new data in real-world scenarios.'
+            }
+          }
+        ]
+      },
+      {
+        id: 'saving-loading-models',
+        title: 'Saving and Loading Models',
+        description: 'Learn how to save your trained models and load them for later use.',
+        complexity: 'beginner',
+        estimatedTime: 15,
+        content: [
+          {
+            type: 'text',
+            content: '# Saving and Loading Models\n\nAfter training a valuable model, you\'ll want to save it for future use without retraining. In this lesson, we\'ll learn how to save and load models in Nova.\n\n## Why Save Models?\n\n- **Reuse**: Use the trained model for predictions without retraining\n- **Sharing**: Share the model with others\n- **Deployment**: Use the model in production applications\n- **Checkpointing**: Save model progress during long training processes'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Saving a model in Nova\nsave model digit_recognizer to "models/digit_recognizer.nova"\n\n# Loading a model in Nova\nload model from "models/digit_recognizer.nova" as loaded_recognizer',
+              pytorch: 'import torch\nimport torch.nn as nn\n\n# Assuming digit_recognizer is defined and trained\n\n# Save the model\ntorch.save(digit_recognizer.state_dict(), "models/digit_recognizer.pth")\n\n# Load the model\n# First, create a model instance with the same architecture\nloaded_recognizer = DigitRecognizer()  # Assuming this class is defined elsewhere\n\n# Then load the state dictionary\nloaded_recognizer.load_state_dict(torch.load("models/digit_recognizer.pth"))\n\n# Put the model in evaluation mode\nloaded_recognizer.eval()'
+            },
+            explanation: 'This code demonstrates how to save and load models in Nova and PyTorch. Notice how Nova simplifies the process.'
+          },
+          {
+            type: 'text',
+            content: '## What Gets Saved?\n\nWhen you save a model, various components are stored:\n\n- **Model Architecture**: The structure of the network\n- **Parameter Values**: Weights and biases learned during training\n- **Optimizer State** (optional): State of the optimizer, useful for resuming training\n- **Training History** (optional): Loss values and metrics during training'
+          },
+          {
+            type: 'interactive-code',
+            content: {
+              nova: '# Complete the code to save and load a model\n\ncreate processing pipeline image_classifier:\n    add transformation stage convolutional with 3 channels, 16 filters, and 3x3 kernel\n    apply relu activation\n    add pooling stage max_pooling with 2x2 size and 2x2 stride\n    add transformation stage fully_connected with 16*13*13 inputs and 10 outputs\n    apply softmax activation\n\ntrain image_classifier on cifar10_data_stream:\n    measure error using cross_entropy\n    improve using adam with learning rate 0.001\n    repeat for 5 learning cycles\n\n# Add code to save the model\n\n\n# Add code to load the model with a different name',
+              pytorch: '',
+              solution: 'create processing pipeline image_classifier:\n    add transformation stage convolutional with 3 channels, 16 filters, and 3x3 kernel\n    apply relu activation\n    add pooling stage max_pooling with 2x2 size and 2x2 stride\n    add transformation stage fully_connected with 16*13*13 inputs and 10 outputs\n    apply softmax activation\n\ntrain image_classifier on cifar10_data_stream:\n    measure error using cross_entropy\n    improve using adam with learning rate 0.001\n    repeat for 5 learning cycles\n\n# Save the model\nsave model image_classifier to "models/cifar_classifier.nova"\n\n# Load the model with a different name\nload model from "models/cifar_classifier.nova" as loaded_classifier',
+              instructions: 'Complete the code by adding commands to save the trained image_classifier and then load it with a new name (loaded_classifier).',
+              hints: [
+                'Use save model [model_name] to [file_path]',
+                'Use load model from [file_path] as [new_model_name]',
+                'Choose appropriate file names with the .nova extension',
+                'Make sure the file paths are in quotes'
+              ]
+            }
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'What is the primary benefit of saving a trained model?',
+              options: [
+                'It makes the model more accurate',
+                'It allows you to use the model without retraining it every time',
+                'It automatically improves model performance',
+                'It increases the model\'s learning rate'
+              ],
+              correctAnswer: 1,
+              explanation: 'The primary benefit of saving a trained model is that it allows you to use the model for predictions without having to retrain it every time. This saves time and computational resources, especially for large models that take a long time to train.'
+            }
+          }
+        ]
+      },
+      {
+        id: 'making-predictions',
+        title: 'Making Predictions with Nova',
+        description: 'Learn how to use your trained models to make predictions on new data.',
+        complexity: 'beginner',
+        estimatedTime: 20,
+        content: [
+          {
+            type: 'text',
+            content: '# Making Predictions with Nova\n\nAfter training and evaluating a model, the ultimate goal is to use it to make predictions on new, unseen data. In this lesson, we\'ll learn how to use Nova models to make predictions.\n\n## Prediction Process\n\n1. **Prepare Input Data**: Format new data to match the model\'s expected input\n2. **Run the Model**: Pass the data through the model\n3. **Process Output**: Interpret the model\'s predictions\n4. **Apply Decision Logic**: Take actions based on predictions'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: '# Making predictions with a trained model in Nova\ncreate feature grid input_image with shape [1, 28, 28, 1] from "sample_digit.png"\n\n# Get prediction\npredict using digit_recognizer on input_image\n\n# Get prediction with probability\npredict using digit_recognizer on input_image with probabilities',
+              pytorch: 'import torch\nfrom PIL import Image\nimport torchvision.transforms as transforms\nimport numpy as np\n\n# Load and preprocess the image\nimage = Image.open("sample_digit.png").convert("L")  # Convert to grayscale\ntransform = transforms.Compose([\n    transforms.Resize((28, 28)),\n    transforms.ToTensor(),\n    transforms.Normalize((0.1307,), (0.3081,))\n])\ninput_image = transform(image).unsqueeze(0)  # Add batch dimension\n\n# Make prediction\nmodel = digit_recognizer\nmodel.eval()\nwith torch.no_grad():\n    output = model(input_image)\n    \n    # Get the predicted class\n    _, predicted_class = torch.max(output, 1)\n    print(f"Predicted digit: {predicted_class.item()}")\n    \n    # Get probabilities\n    probabilities = torch.nn.functional.softmax(output, dim=1)\n    print(f"Probabilities: {probabilities.squeeze().numpy()}")'
+            },
+            explanation: 'This code shows how to make predictions with a trained model in Nova and PyTorch. Nova\'s syntax is much simpler and more intuitive.'
+          },
+          {
+            type: 'text',
+            content: '## Types of Predictions\n\n- **Classification**: Predicting a category or class (e.g., digit recognition)\n- **Regression**: Predicting a continuous value (e.g., house price prediction)\n- **Probability**: Predicting the likelihood of each possible outcome\n- **Sequence**: Predicting a sequence of values (e.g., text generation)\n- **Structured**: Predicting structured outputs (e.g., image segmentation)'
+          },
+          {
+            type: 'interactive-code',
+            content: {
+              nova: '# Complete the code to make predictions with a sentiment classifier\n\n# Assume the model is already trained\nload model from "models/sentiment_classifier.nova" as sentiment_model\n\n# Create input features for two sample reviews\ncreate feature grid positive_review_features with shape [1, 100] from "Great product, highly recommend it!"\ncreate feature grid negative_review_features with shape [1, 100] from "Terrible quality, don\'t waste your money."\n\n# Make predictions\n# Add code to predict sentiment for the positive review\n\n\n# Add code to predict sentiment for the negative review with probabilities',
+              pytorch: '',
+              solution: 'load model from "models/sentiment_classifier.nova" as sentiment_model\n\ncreate feature grid positive_review_features with shape [1, 100] from "Great product, highly recommend it!"\ncreate feature grid negative_review_features with shape [1, 100] from "Terrible quality, don\'t waste your money."\n\n# Make prediction for positive review\npredict using sentiment_model on positive_review_features\n\n# Make prediction for negative review with probabilities\npredict using sentiment_model on negative_review_features with probabilities',
+              instructions: 'Complete the code to make predictions on the positive and negative reviews. For the negative review, also show the probabilities.',
+              hints: [
+                'Use predict using [model_name] on [input_data]',
+                'To get probabilities, add "with probabilities" at the end',
+                'The syntax is similar for both predictions, but with different inputs',
+                'Make sure to use the correct model and input names'
+              ]
+            }
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'Why might you want to get prediction probabilities rather than just the predicted class?',
+              options: [
+                'Because probabilities are always more accurate',
+                'To understand the model\'s confidence in its prediction',
+                'Because it\'s faster to compute',
+                'Probabilities are required for model evaluation'
+              ],
+              correctAnswer: 1,
+              explanation: 'Getting prediction probabilities allows you to understand the model\'s confidence in its prediction. A high probability (e.g., 0.98) suggests high confidence, while a lower probability (e.g., 0.51) indicates the model is less certain. This information can be crucial for decision-making, especially in critical applications.'
+            }
+          }
+        ]
       }
     ]
   },
