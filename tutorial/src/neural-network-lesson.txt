@@ -1,0 +1,81 @@
+{
+        id: 'first-neural-network',
+        title: 'Creating Your First Neural Network',
+        description: 'Build and understand a simple neural network in Nova.',
+        complexity: 'beginner',
+        estimatedTime: 20,
+        content: [
+          {
+            type: 'text',
+            content: '# Building Your First Neural Network\n\nIn this lesson, we\'ll create a simple neural network using Nova syntax. You\'ll see how Nova makes it intuitive to define network architecture and understand the flow of data through a machine learning model.\n\n## What is a Neural Network?\n\nBefore we dive into code, let\'s understand what a neural network actually is:\n\nA neural network is a computational model inspired by the human brain. It consists of interconnected nodes (neurons) organized in layers that process information. These networks can learn patterns from data and make predictions on new, unseen examples.\n\nIn Nova, we view neural networks as **processing pipelines** that transform input data through multiple stages to produce a desired output.'
+          },
+          {
+            type: 'text',
+            content: '## Neural Network Visualization\n\nA neural network typically consists of:\n\n1. **Input Layer**: Receives the raw data (e.g., flattened pixels of an image)\n2. **Hidden Layers**: Process and transform the data through weighted connections\n3. **Output Layer**: Produces the final prediction (e.g., digit classification)\n\nData flows from input to output, with each layer applying transformations to extract meaningful patterns.'
+          },
+          {
+            type: 'text',
+            content: '## Understanding the MNIST Digit Recognition Task\n\nFor our first neural network, we\'ll tackle a classic machine learning problem: handwritten digit recognition using the MNIST dataset.\n\n**The Task**: Given a 28×28 pixel grayscale image of a handwritten digit (0-9), correctly identify which digit it represents.\n\n**The Data**: Each image has 784 pixels (28×28), with each pixel having a grayscale value between 0-255. We\'ll flatten these 2D images into a 1D array of 784 values as input to our model.\n\n**The Output**: Our model will produce 10 output values representing the probability that the input image belongs to each of the 10 possible digit classes (0-9).'
+          },
+          {
+            type: 'text',
+            content: '## Designing Our Neural Network\n\nNow let\'s design a simple neural network for this task. We\'ll create a model with:\n\n1. An input layer accepting 784 features (one per pixel)\n2. A hidden layer with 128 neurons to learn patterns\n3. An output layer with 10 neurons (one per digit class)\n4. Activation functions to introduce non-linearity\n\nHere\'s how we express this neural network in Nova syntax:'
+          },
+          {
+            type: 'code',
+            content: {
+              nova: 'create processing pipeline digit_classifier:\n    add transformation stage fully_connected with 784 inputs and 128 outputs\n    apply relu activation\n    add transformation stage fully_connected with 128 inputs and 10 outputs\n    apply softmax activation',
+              pytorch: 'import torch\nimport torch.nn as nn\n\nclass DigitClassifier(nn.Module):\n    def __init__(self):\n        super(DigitClassifier, self).__init__()\n        self.fc1 = nn.Linear(784, 128)\n        self.relu = nn.ReLU()\n        self.fc2 = nn.Linear(128, 10)\n        self.softmax = nn.Softmax(dim=1)\n        \n    def forward(self, x):\n        x = self.fc1(x)\n        x = self.relu(x)\n        x = self.fc2(x)\n        x = self.softmax(x)\n        return x'
+            },
+            explanation: 'This code creates a neural network for digit classification with an input layer (784 neurons), one hidden layer (128 neurons), and an output layer (10 neurons). The ReLU activation adds non-linearity, while the softmax activation converts the output to probabilities that sum to 1.'
+          },
+          {
+            type: 'text',
+            content: '## Understanding Each Component\n\nLet\'s break down the Nova code line by line:\n\n1. `create processing pipeline digit_classifier:` - Defines a new neural network model named "digit_classifier"\n\n2. `add transformation stage fully_connected with 784 inputs and 128 outputs` - Creates the first layer, which takes 784 input features (the flattened image pixels) and produces 128 output values\n\n3. `apply relu activation` - Applies the ReLU (Rectified Linear Unit) activation function, which replaces negative values with zero while keeping positive values unchanged. This introduces non-linearity into the model.\n\n4. `add transformation stage fully_connected with 128 inputs and 10 outputs` - Creates the output layer, which takes the 128 values from the hidden layer and produces 10 outputs (one for each digit class)\n\n5. `apply softmax activation` - Applies the softmax function to convert the raw output values into probabilities that sum to 1, making them easier to interpret as confidence scores'
+          },
+          {
+            type: 'text',
+            content: '## The Data Flow Through Our Network\n\nLet\'s visualize how data flows through this neural network:\n\n1. **Input**: A 28×28 pixel image is flattened into a vector of 784 values\n\n2. **First Transformation Stage**: Each of the 128 neurons in the hidden layer computes a weighted sum of all 784 input values, plus a bias term\n\n3. **ReLU Activation**: Negative values are replaced with zeros, adding non-linearity\n\n4. **Second Transformation Stage**: Each of the 10 neurons in the output layer computes a weighted sum of all 128 hidden values, plus a bias term\n\n5. **Softmax Activation**: Raw outputs are converted to probabilities that sum to 1\n\n6. **Prediction**: The digit with the highest probability is chosen as the prediction\n\nThis entire process is what makes neural networks so powerful - they can learn complex patterns from data through the adjustment of weights and biases during training.'
+          },
+          {
+            type: 'interactive-code',
+            content: {
+              nova: '# Complete the code below to add a hidden layer with 64 neurons\n\ncreate processing pipeline digit_recognizer:\n    add transformation stage fully_connected with 784 inputs and 128 outputs\n    apply relu activation\n    # Add another transformation stage here\n    \n    add transformation stage fully_connected with 64 inputs and 10 outputs\n    apply softmax activation',
+              pytorch: '',
+              solution: 'create processing pipeline digit_recognizer:\n    add transformation stage fully_connected with 784 inputs and 128 outputs\n    apply relu activation\n    add transformation stage fully_connected with 128 inputs and 64 outputs\n    apply relu activation\n    add transformation stage fully_connected with 64 inputs and 10 outputs\n    apply softmax activation',
+              instructions: 'Add a fully connected layer with 128 inputs and 64 outputs, followed by ReLU activation. This will create a model with two hidden layers instead of just one, potentially improving its ability to learn complex patterns.',
+              hints: [
+                'The missing layer should take the output of the previous layer (128) as input',
+                'Don\'t forget to add an activation function after your new layer',
+                'The syntax is: add transformation stage fully_connected with X inputs and Y outputs'
+              ]
+            }
+          },
+          {
+            type: 'text',
+            content: '## Why Add More Layers?\n\nYou just added a second hidden layer to the neural network. But why would we want to do this?\n\nNeural networks with multiple hidden layers (known as \"deep\" neural networks) can learn more complex patterns than those with only one hidden layer. Each layer can learn increasingly abstract representations of the data:\n\n- The first hidden layer might learn to detect simple patterns like edges and curves\n- The second hidden layer might combine these to recognize parts of digits\n- The output layer combines these parts to identify complete digits\n\nThis hierarchical learning is what makes deep learning so powerful for complex tasks like image recognition, natural language processing, and more.'
+          },
+          {
+            type: 'text',
+            content: '## The Importance of Activation Functions\n\nYou\'ve seen the ReLU activation function used in our model, but why do we need activation functions at all?\n\nWithout activation functions, neural networks would only be able to learn linear relationships, regardless of how many layers they have. This is because combining linear transformations just results in another linear transformation.\n\nActivation functions introduce non-linearity, allowing neural networks to learn complex, non-linear patterns in the data. Some common activation functions include:\n\n- **ReLU** (Rectified Linear Unit): f(x) = max(0, x)\n- **Sigmoid**: f(x) = 1 / (1 + e^(-x))\n- **Tanh**: f(x) = (e^x - e^(-x)) / (e^x + e^(-x))\n- **Softmax**: Converts values to probabilities that sum to 1, used for classification'
+          },
+          {
+            type: 'quiz',
+            content: {
+              question: 'Why do we need activation functions in neural networks?',
+              options: [
+                'To make the network run faster',
+                'To introduce non-linearity, allowing the network to learn complex patterns',
+                'To reduce the number of parameters that need to be learned',
+                'To convert the output to a specific data type'
+              ],
+              correctAnswer: 1,
+              explanation: 'Activation functions introduce non-linearity into neural networks. Without them, no matter how many layers we add, the network would only be able to learn linear relationships between inputs and outputs. Non-linearity allows the network to learn complex patterns and relationships in the data.'
+            }
+          },
+          {
+            type: 'text',
+            content: '## Next Steps\n\nCongratulations! You\'ve created your first neural network using Nova\'s intuitive syntax. In the next lesson, we\'ll learn how to work with data in Nova, preparing it for use with our neural network models.\n\nAs you continue with this course, you\'ll learn how to:\n\n1. Load and preprocess data\n2. Train your neural network\n3. Evaluate its performance\n4. Make predictions on new data\n5. Save and load your trained models\n\nAll using Nova\'s intuitive, natural language syntax that bridges the gap between human understanding and machine learning code.'
+          }
+        ]
+      }

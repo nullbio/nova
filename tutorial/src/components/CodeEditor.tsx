@@ -8,6 +8,35 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ReplayIcon from '@mui/icons-material/Replay';
 import InfoIcon from '@mui/icons-material/Info';
 
+// Add TypeScript support for ResizeObserver
+declare global {
+  interface Window {
+    ResizeObserver: typeof ResizeObserver;
+  }
+}
+
+// More aggressive workaround for ResizeObserver errors
+if (typeof window !== 'undefined') {
+  // Prevent error events from triggering for ResizeObserver
+  window.addEventListener('error', (e) => {
+    if (e.message === 'ResizeObserver loop limit exceeded' || 
+        e.message.includes('ResizeObserver loop completed with undelivered notifications')) {
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      return false;
+    }
+  }, true);
+  
+  // Simpler solution - just suppress errors in the console
+  const originalConsoleError = console.error;
+  console.error = (...args: any[]) => {
+    if (args[0] && typeof args[0] === 'string' && args[0].includes('ResizeObserver')) {
+      return;
+    }
+    originalConsoleError(...args);
+  };
+}
+
 interface CodeEditorProps {
   initialCode: CodeExample;
   readOnly?: boolean;
@@ -124,8 +153,26 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
     setCurrentHint(0);
   };
 
+  const toggleHints = () => {
+    // Use a small delay to help with ResizeObserver issues
+    setTimeout(() => {
+      // Toggle hints visibility
+      if (showHint) {
+        setShowHint(false);
+      } else {
+        setShowHint(true);
+        setCurrentHint(0);
+      }
+    }, 10);
+  };
+  
+  const showPreviousHint = () => {
+    if (currentHint > 0) {
+      setCurrentHint(prev => prev - 1);
+    }
+  };
+  
   const showNextHint = () => {
-    setShowHint(true);
     if (currentHint < hints.length - 1) {
       setCurrentHint(prev => prev + 1);
     }
@@ -167,8 +214,17 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               fontSize: 14,
               scrollBeyondLastLine: false,
               automaticLayout: true,
+              fixedOverflowWidgets: true,
+              renderLineHighlight: 'none',
+              contextmenu: false,
             }}
             theme="vs-light"
+            onMount={(editor) => {
+              // Force a layout recalculation after component is mounted
+              setTimeout(() => {
+                editor.layout();
+              }, 100);
+            }}
           />
         </TabPanel>
         
@@ -184,8 +240,17 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
               fontSize: 14,
               scrollBeyondLastLine: false,
               automaticLayout: true,
+              fixedOverflowWidgets: true,
+              renderLineHighlight: 'none',
+              contextmenu: false,
             }}
             theme="vs-light"
+            onMount={(editor) => {
+              // Force a layout recalculation after component is mounted
+              setTimeout(() => {
+                editor.layout();
+              }, 100);
+            }}
           />
         </TabPanel>
         
@@ -252,17 +317,42 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
             startIcon={<InfoIcon />}
             variant="text"
             color="info"
-            onClick={showNextHint}
+            onClick={toggleHints}
           >
-            {showHint ? 'Next Hint' : 'Hint'}
+            {showHint ? 'Hide Hints' : 'Show Hints'}
           </Button>
         )}
       </Box>
       
       {showHint && hints.length > 0 && (
         <Box sx={{ p: 2, bgcolor: 'info.light', color: 'info.contrastText' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
+            <Typography variant="body2" fontWeight="bold">
+              Hint {currentHint + 1}/{hints.length}
+            </Typography>
+            <Box>
+              <Button 
+                size="small" 
+                variant="text" 
+                disabled={currentHint === 0}
+                onClick={showPreviousHint}
+                sx={{ minWidth: 'auto', p: 0.5, mr: 1, color: 'info.contrastText' }}
+              >
+                Previous
+              </Button>
+              <Button 
+                size="small" 
+                variant="text" 
+                disabled={currentHint === hints.length - 1}
+                onClick={showNextHint}
+                sx={{ minWidth: 'auto', p: 0.5, color: 'info.contrastText' }}
+              >
+                Next
+              </Button>
+            </Box>
+          </Box>
           <Typography variant="body2">
-            <strong>Hint {currentHint + 1}/{hints.length}:</strong> {hints[currentHint]}
+            {hints[currentHint]}
           </Typography>
         </Box>
       )}

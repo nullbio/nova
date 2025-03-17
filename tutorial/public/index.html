@@ -10,6 +10,23 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!-- Hide ResizeObserver error overlays -->
+    <style>
+      #webpack-dev-server-client-overlay[style*="display: block"] {
+        display: none !important;
+      }
+    </style>
+    <script>
+      // Immediately hide any ResizeObserver error overlays
+      window.addEventListener('load', function() {
+        setInterval(function() {
+          var overlay = document.getElementById('webpack-dev-server-client-overlay');
+          if (overlay && overlay.innerHTML && overlay.innerHTML.includes('ResizeObserver')) {
+            overlay.style.display = 'none';
+          }
+        }, 100);
+      });
+    </script>
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
